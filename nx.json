@@ -1,0 +1,51 @@
+{
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": {
+      "dependencies": "*",
+      "devDependencies": "*"
+    },
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
+  "affected": {
+    "defaultBase": "master"
+  },
+  "npmScope": "business-loyalty-program",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": {
+        "cacheableOperations": ["build", "lint", "test", "e2e"]
+      }
+    }
+  },
+  "projects": {
+    "api": {
+      "tags": []
+    },
+    "database": {
+      "tags": []
+    },
+    "types": {
+      "tags": []
+    },
+    "admin": {
+      "tags": []
+    },
+    "ui-kit": {
+      "tags": []
+    },
+    "mobile": {
+      "tags": []
+    },
+    "mobile-api": {
+      "tags": []
+    },
+    "integration-api": {
+      "tags": []
+    }
+  }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Mobile.iml" filepath="$PROJECT_DIR$/.idea/modules/Mobile.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/Mobile.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/Mobile.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1961101196/Mobile.react-native-community_datetimepicker.iml" filepath="$PROJECT_DIR$/.idea/modules/-1961101196/Mobile.react-native-community_datetimepicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-697732165/Mobile.react-native-gesture-handler.iml" filepath="$PROJECT_DIR$/.idea/modules/-697732165/Mobile.react-native-gesture-handler.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1366041655/Mobile.react-native-get-location.iml" filepath="$PROJECT_DIR$/.idea/modules/1366041655/Mobile.react-native-get-location.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/382601194/Mobile.react-native-get-random-values.iml" filepath="$PROJECT_DIR$/.idea/modules/382601194/Mobile.react-native-get-random-values.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-193147912/Mobile.react-native-google-signin_google-signin.iml" filepath="$PROJECT_DIR$/.idea/modules/-193147912/Mobile.react-native-google-signin_google-signin.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1101601067/Mobile.react-native-image-picker.iml" filepath="$PROJECT_DIR$/.idea/modules/1101601067/Mobile.react-native-image-picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/377634680/Mobile.react-native-maps.iml" filepath="$PROJECT_DIR$/.idea/modules/377634680/Mobile.react-native-maps.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/189296374/Mobile.react-native-mmkv.iml" filepath="$PROJECT_DIR$/.idea/modules/189296374/Mobile.react-native-mmkv.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-462335462/Mobile.react-native-pager-view.iml" filepath="$PROJECT_DIR$/.idea/modules/-462335462/Mobile.react-native-pager-view.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-191381174/Mobile.react-native-picker_picker.iml" filepath="$PROJECT_DIR$/.idea/modules/-191381174/Mobile.react-native-picker_picker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/145656164/Mobile.react-native-safe-area-context.iml" filepath="$PROJECT_DIR$/.idea/modules/145656164/Mobile.react-native-safe-area-context.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/59927769/Mobile.react-native-svg.iml" filepath="$PROJECT_DIR$/.idea/modules/59927769/Mobile.react-native-svg.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/-1568098821/Mobile.react-native-vector-icons.iml" filepath="$PROJECT_DIR$/.idea/modules/-1568098821/Mobile.react-native-vector-icons.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/1861463756/Mobile.react-native-vkontakte-login.iml" filepath="$PROJECT_DIR$/.idea/modules/1861463756/Mobile.react-native-vkontakte-login.iml" />
+    </modules>
+  </component>
+</project>

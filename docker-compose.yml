@@ -1,0 +1,21 @@
+version: '3.7'
+
+services:
+  business-loyalty-program-db:
+    image: postgres:13
+    restart: always
+    container_name: db
+    environment:
+      POSTGRES_DB: 'business-loyalty-program'
+      POSTGRES_USER: 'business-loyalty-program-user'
+      POSTGRES_PASSWORD: 'password'
+    volumes:
+      - ./db-data:/var/lib/postgresql/data
+    ports:
+      - '5432:5432'
+  blp-redis:
+    image: "redis:alpine"
+    restart: always
+    container_name: redis
+    ports:
+       - '6379:6379'

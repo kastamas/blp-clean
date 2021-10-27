@@ -1,0 +1,173 @@
+include:
+  - project: 'flexypw/infrastructure'
+    file: '/ci-templates/monorepo-templates.yml'
+
+variables:
+  ADMIN_API_SERVICE: blp-admin-api
+  ADMIN_API_DOMAIN: admin.api.blp.flexy.pw
+  MOBILE_API_SERVICE: blp-mobile-api
+  MOBILE_API_DOMAIN: mobile.api.blp.flexy.pw
+  INTEGRATION_API_SERVICE: blp-integration-api
+  INTEGRATION_API_DOMAIN: integration.api.blp.flexy.pw
+  ADMIN_SERVICE: blp-admin
+  ADMIN_DOMAIN: admin.blp.flexy.pw
+
+admin-api:artifacts:
+  extends: .api-base-artifacts
+  variables:
+    APP_NAME: api
+
+admin-api:build:
+  extends: .api-base-build
+  variables:
+    APP_NAME: api
+    SERVICE_NAME: $ADMIN_API_SERVICE
+    SERVICE_DOMAIN: $ADMIN_API_DOMAIN
+  needs:
+    - job: admin-api:artifacts
+      artifacts: true
+
+admin-api:deploy:
+  extends: .deploy
+  resource_group: deploy
+  script:
+    - ssh deploy@$DEPLOYMENT_IP "
+      docker run
+      --name ${SERVICE_NAME}
+      --network=flexy-infra
+      --env DB_HOST=\"business-loyalty-program-db\"
+      --env DB_PORT=\"5432\"
+      --env DB_USERNAME=\"business-loyalty-program-user\"
+      --env DB_PASSWORD=\"password\"
+      --env DB_NAME=\"business-loyalty-program\"
+      --env JWT_MNEMONIC=\"${JWT_MNEMONIC}\"
+      --env SALT=\"${SALT}\"
+      --env MINIO_ENDPOINT=\"${MINIO_ENDPOINT}\"
+      --env MINIO_PORT=\"${MINIO_PORT}\"
+      --env MINIO_ACCESS_KEY=\"${MINIO_ACCESS_KEY}\"
+      --env MINIO_SECRET_KEY=\"${MINIO_SECRET_KEY}\"
+      --env MINIO_BUCKET=\"business-loyalty-program\"
+      --env MINIO_BASE_URL=\"${MINIO_BASE_URL}\"
+      --env DADATA_TOKEN=\"${DADATA_TOKEN}\"
+      --env DADATA_BASEURL=\"${DADATA_BASEURL}\"
+      -d ${IMAGE_PREFIX}/${SERVICE_NAME}
+      "
+  needs: ["admin-api:build"]
+  variables:
+    SERVICE_NAME: $ADMIN_API_SERVICE
+    GIT_STRATEGY: none
+  only:
+    - web
+
+mobile-api:artifacts:
+  extends: .api-base-artifacts
+  variables:
+    APP_NAME: mobile-api
+
+mobile-api:build:
+  extends: .api-base-build
+  variables:
+    APP_NAME: mobile-api
+    SERVICE_NAME: $MOBILE_API_SERVICE
+    SERVICE_DOMAIN: $MOBILE_API_DOMAIN
+  needs:
+    - job: mobile-api:artifacts
+      artifacts: true
+
+mobile-api:deploy:
+  extends: .deploy
+  resource_group: deploy
+  script:
+    - ssh deploy@$DEPLOYMENT_IP "
+      docker run
+      --name ${SERVICE_NAME}
+      --network=flexy-infra
+      --env DB_HOST=\"business-loyalty-program-db\"
+      --env DB_PORT=\"5432\"
+      --env DB_USERNAME=\"business-loyalty-program-user\"
+      --env DB_PASSWORD=\"password\"
+      --env DB_NAME=\"business-loyalty-program\"
+      --env JWT_MNEMONIC=\"${JWT_MNEMONIC}\"
+      --env SALT=\"${SALT}\"
+      --env MINIO_ENDPOINT=\"${MINIO_ENDPOINT}\"
+      --env MINIO_PORT=\"${MINIO_PORT}\"
+      --env MINIO_ACCESS_KEY=\"${MINIO_ACCESS_KEY}\"
+      --env MINIO_SECRET_KEY=\"${MINIO_SECRET_KEY}\"
+      --env MINIO_BUCKET=\"business-loyalty-program\"
+      --env MINIO_BASE_URL=\"${MINIO_BASE_URL}\"
+      --env REDIS_HOST=\"blp-redis\"
+      --env REDIS_PORT=\"6379\"
+      --env SMS_LOGIN=\"${SMS_LOGIN}\"
+      --env SMS_PASSWORD=\"${SMS_PASSWORD}\"
+      -d ${IMAGE_PREFIX}/${SERVICE_NAME}
+      "
+  needs: ["mobile-api:build"]
+  variables:
+    SERVICE_NAME: $MOBILE_API_SERVICE
+    GIT_STRATEGY: none
+  only:
+    - web
+
+integration-api:artifacts:
+  extends: .api-base-artifacts
+  variables:
+    APP_NAME: integration-api
+
+integration-api:build:
+  extends: .api-base-build
+  variables:
+    APP_NAME: integration-api
+    SERVICE_NAME: $INTEGRATION_API_SERVICE
+    SERVICE_DOMAIN: $INTEGRATION_API_DOMAIN
+  needs:
+    - job: integration-api:artifacts
+      artifacts: true
+
+integration-api:deploy:
+  extends: .deploy
+  resource_group: deploy
+  script:
+    - ssh deploy@$DEPLOYMENT_IP "
+      docker run
+      --name ${SERVICE_NAME}
+      --network=flexy-infra
+      --env DB_HOST=\"business-loyalty-program-db\"
+      --env DB_PORT=\"5432\"
+      --env DB_USERNAME=\"business-loyalty-program-user\"
+      --env DB_PASSWORD=\"password\"
+      --env DB_NAME=\"business-loyalty-program\"
+      -d ${IMAGE_PREFIX}/${SERVICE_NAME}
+      "
+  needs: ["integration-api:build"]
+  variables:
+    SERVICE_NAME: $INTEGRATION_API_SERVICE
+    GIT_STRATEGY: none
+  only:
+    - web
+
+admin:artifacts:
+  extends: .client-base-artifacts
+  variables:
+    APP_NAME: admin
+    API_URL: https://admin.api.blp.flexy.pw/api
+
+admin:build:
+  extends: .client-base-build
+  variables:
+    APP_NAME: admin
+    SERVICE_NAME: $ADMIN_SERVICE
+    SERVICE_DOMAIN: $ADMIN_DOMAIN
+  needs:
+    - job: admin:artifacts
+      artifacts: true
+
+admin:deploy:
+  extends: .client-base-deploy
+  needs: ["admin:build"]
+  variables:
+    SERVICE_NAME: $ADMIN_SERVICE
+    API_SERVICE_NAME: $ADMIN_API_SERVICE
+
+cache:update:
+  extends: .cache-update
+  needs: ["admin-api:artifacts", "mobile-api:artifacts", "integration-api:artifacts", "admin:artifacts"]

@@ -1,0 +1,360 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/nest"
+  },
+  "defaultProject": "api",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "babel": true
+      }
+    },
+    "@nrwl/next": {
+      "application": {
+        "style": "styled-components",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "api": {
+      "root": "apps/api",
+      "sourceRoot": "apps/api/src",
+      "projectType": "application",
+      "prefix": "api",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/api",
+            "main": "apps/api/src/main.ts",
+            "tsConfig": "apps/api/tsconfig.app.json",
+            "assets": [
+              "apps/api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/api/src/environments/environment.ts",
+                  "with": "apps/api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/api/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/api"
+          ],
+          "options": {
+            "jestConfig": "apps/api/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "database": {
+      "root": "libs/database",
+      "sourceRoot": "libs/database/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/database/**/*.ts"
+            ]
+          }
+        }
+      }
+    },
+    "types": {
+      "root": "libs/types",
+      "sourceRoot": "libs/types/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/types/**/*.ts"
+            ]
+          }
+        }
+      }
+    },
+    "admin": {
+      "root": "apps/admin",
+      "sourceRoot": "apps/admin",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/next:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "root": "apps/admin",
+            "outputPath": "dist/apps/admin"
+          },
+          "configurations": {
+            "production": {}
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/next:server",
+          "options": {
+            "buildTarget": "admin:build",
+            "dev": true
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "admin:build:production",
+              "dev": false
+            }
+          }
+        },
+        "export": {
+          "executor": "@nrwl/next:export",
+          "options": {
+            "buildTarget": "admin:build:production"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/admin/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        }
+      }
+    },
+    "ui-kit": {
+      "root": "libs/ui-kit",
+      "sourceRoot": "libs/ui-kit/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/ui-kit/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/ui-kit"
+          ],
+          "options": {
+            "jestConfig": "libs/ui-kit/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "mobile": {
+      "root": "apps/mobile",
+      "sourceRoot": "apps/mobile/src",
+      "projectType": "application",
+      "generators": {},
+      "targets": {
+        "start": {
+          "executor": "@nrwl/react-native:start",
+          "options": {
+            "port": 8081
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/workspace:run-commands",
+          "options": {
+            "command": "nx start mobile"
+          }
+        },
+        "run-ios": {
+          "executor": "@nrwl/react-native:run-ios",
+          "options": {
+            "simulator": "iPhone 12"
+          }
+        },
+        "bundle-ios": {
+          "executor": "@nrwl/react-native:bundle",
+          "outputs": [
+            "apps/mobile/build"
+          ],
+          "options": {
+            "entryFile": "apps/mobile/src/main.tsx",
+            "platform": "ios",
+            "bundleOutput": "dist/apps/mobile/ios/main.bundle"
+          }
+        },
+        "run-android": {
+          "executor": "@nrwl/react-native:run-android",
+          "options": {}
+        },
+        "build-android": {
+          "executor": "@nrwl/react-native:build-android",
+          "outputs": [
+            "apps/mobile/android/app/build/outputs/bundle",
+            "apps/mobile/android/app/build/outputs/apk"
+          ],
+          "options": {}
+        },
+        "bundle-android": {
+          "executor": "@nrwl/react-native:bundle",
+          "options": {
+            "entryFile": "apps/mobile/src/main.tsx",
+            "platform": "android",
+            "bundleOutput": "dist/apps/mobile/android/main.bundle"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/mobile/**/*.{js,ts,tsx}"
+            ]
+          }
+        },
+        "sync-deps": {
+          "executor": "@nrwl/react-native:sync-deps",
+          "options": {}
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/mobile"
+          ],
+          "options": {
+            "jestConfig": "apps/mobile/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "mobile-api": {
+      "root": "apps/mobile-api",
+      "sourceRoot": "apps/mobile-api/src",
+      "projectType": "application",
+      "prefix": "mobile-api",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/mobile-api",
+            "main": "apps/mobile-api/src/main.ts",
+            "tsConfig": "apps/mobile-api/tsconfig.app.json",
+            "assets": [
+              "apps/mobile-api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mobile-api/src/environments/environment.ts",
+                  "with": "apps/mobile-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "mobile-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/mobile-api/**/*.ts"
+            ]
+          }
+        }
+      }
+    },
+    "integration-api": {
+      "root": "apps/integration-api",
+      "sourceRoot": "apps/integration-api/src",
+      "projectType": "application",
+      "prefix": "integration-api",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/integration-api",
+            "main": "apps/integration-api/src/main.ts",
+            "tsConfig": "apps/integration-api/tsconfig.app.json",
+            "assets": [
+              "apps/integration-api/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/integration-api/src/environments/environment.ts",
+                  "with": "apps/integration-api/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "integration-api:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/integration-api/**/*.ts"
+            ]
+          }
+        }
+      }
+    }
+  }
+}
